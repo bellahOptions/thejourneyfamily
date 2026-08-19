@@ -1,34 +1,34 @@
 {
-  "_fonts-C9MNnjVw.css": {
-    "file": "assets/fonts-C9MNnjVw.css",
-    "src": "_fonts-C9MNnjVw.css"
+  "_dm-sans-400-normal-BwCSEQnW.woff": {
+    "file": "assets/dm-sans-400-normal-BwCSEQnW.woff",
+    "src": "_dm-sans-400-normal-BwCSEQnW.woff"
   },
-  "_instrument-sans-400-normal-D1W7dsQl.woff": {
-    "file": "assets/instrument-sans-400-normal-D1W7dsQl.woff",
-    "src": "_instrument-sans-400-normal-D1W7dsQl.woff"
+  "_dm-sans-400-normal-CW0RaeGs.woff2": {
+    "file": "assets/dm-sans-400-normal-CW0RaeGs.woff2",
+    "src": "_dm-sans-400-normal-CW0RaeGs.woff2"
   },
-  "_instrument-sans-400-normal-DRC__1Mx.woff2": {
-    "file": "assets/instrument-sans-400-normal-DRC__1Mx.woff2",
-    "src": "_instrument-sans-400-normal-DRC__1Mx.woff2"
+  "_dm-sans-500-normal-B9HHJjqV.woff2": {
+    "file": "assets/dm-sans-500-normal-B9HHJjqV.woff2",
+    "src": "_dm-sans-500-normal-B9HHJjqV.woff2"
   },
-  "_instrument-sans-500-normal-Dk9ku72i.woff2": {
-    "file": "assets/instrument-sans-500-normal-Dk9ku72i.woff2",
-    "src": "_instrument-sans-500-normal-Dk9ku72i.woff2"
+  "_dm-sans-500-normal-Dr3UlScf.woff": {
+    "file": "assets/dm-sans-500-normal-Dr3UlScf.woff",
+    "src": "_dm-sans-500-normal-Dr3UlScf.woff"
   },
-  "_instrument-sans-500-normal-Z6ESRlEs.woff": {
-    "file": "assets/instrument-sans-500-normal-Z6ESRlEs.woff",
-    "src": "_instrument-sans-500-normal-Z6ESRlEs.woff"
+  "_dm-sans-600-normal-Aqo67rzb.woff2": {
+    "file": "assets/dm-sans-600-normal-Aqo67rzb.woff2",
+    "src": "_dm-sans-600-normal-Aqo67rzb.woff2"
   },
-  "_instrument-sans-600-normal-B7fBEWYG.woff2": {
-    "file": "assets/instrument-sans-600-normal-B7fBEWYG.woff2",
-    "src": "_instrument-sans-600-normal-B7fBEWYG.woff2"
+  "_dm-sans-600-normal-BmdmIIQ2.woff": {
+    "file": "assets/dm-sans-600-normal-BmdmIIQ2.woff",
+    "src": "_dm-sans-600-normal-BmdmIIQ2.woff"
   },
-  "_instrument-sans-600-normal-B9e8oLYv.woff": {
-    "file": "assets/instrument-sans-600-normal-B9e8oLYv.woff",
-    "src": "_instrument-sans-600-normal-B9e8oLYv.woff"
+  "_fonts-B247UwQA.css": {
+    "file": "assets/fonts-B247UwQA.css",
+    "src": "_fonts-B247UwQA.css"
   },
   "resources/css/app.css": {
-    "file": "assets/app-CktI6n1k.css",
+    "file": "assets/app-DEuXLeBT.css",
     "name": "app",
     "names": [
       "app.css"
@@ -37,7 +37,7 @@
     "isEntry": true
   },
   "resources/js/app.js": {
-    "file": "assets/app-D5YKN2eS.js",
+    "file": "assets/app-mk4k5VVC.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true

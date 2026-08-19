@@ -28,3 +28,19 @@ countdowns.forEach((element) => {
     updateCountdown(element);
     window.setInterval(() => updateCountdown(element), 1000);
 });
+
+    function updateClock() {
+        const now = new Date();
+        
+        // Format time to your liking (e.g., HH:MM:SS)
+        const timeString = now.toLocaleTimeString();
+        const dateString = now.toLocaleDateString(undefined, { 
+            weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' 
+        });
+
+        document.getElementById('live-clock').textContent = `${dateString} - ${timeString}`;
+    }
+
+    // Run immediately on load, then tick every 1 second (1000ms)
+    updateClock();
+    setInterval(updateClock, 1000);

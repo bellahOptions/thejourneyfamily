@@ -126,6 +126,13 @@ return [
             'replace_placeholders' => true,
         ],
 
+        'retreat' => [
+    'driver' => 'daily',
+    'path' => storage_path('logs/retreat.log'),
+    'level' => env('LOG_LEVEL', 'debug'),
+    'days' => 14,
+],
+
         'null' => [
             'driver' => 'monolog',
             'handler' => NullHandler::class,
