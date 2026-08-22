@@ -7,7 +7,8 @@ $organizerEmails = env(
 
 return [
     'name' => 'The Journey Couples Retreat S6',
-    'event_date' => env('RETREAT_EVENT_DATE', '2026-08-31 09:00:00'),
+    'event_start_date' => env('RETREAT_EVENT_START_DATE', '2026-08-21 09:00:00'),
+    'event_end_date' => env('RETREAT_EVENT_END_DATE', '2026-08-22 22:00:00'),
     'timezone' => env('RETREAT_TIMEZONE', 'Africa/Lagos'),
     'organizer_emails' => array_values(array_filter(array_map(
         'trim',

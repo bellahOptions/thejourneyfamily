@@ -4,6 +4,7 @@
         ['route' => 'registrations.create', 'label' => 'Register'],
         ['route' => 'confessions.index', 'label' => 'Confessions'],
         ['route' => 'questions.create', 'label' => 'Ask a Question'],
+        ['route' => 'consultations.create', 'label' => 'Consultation'],
     ];
 @endphp
 

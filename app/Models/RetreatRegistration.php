@@ -74,11 +74,33 @@ class RetreatRegistration extends Model
         return blank($this->email);
     }
 
-    public function eventDate(): CarbonImmutable
+    public function eventStartDate(): CarbonImmutable
     {
         return CarbonImmutable::parse(
-            config('retreat.event_date'),
+            config('retreat.event_start_date'),
             config('retreat.timezone', config('app.timezone'))
         );
+    }
+
+    public function eventEndDate(): CarbonImmutable
+    {
+        return CarbonImmutable::parse(
+            config('retreat.event_end_date'),
+            config('retreat.timezone', config('app.timezone'))
+        );
+    }
+
+    /**
+     * @return 'upcoming'|'live'|'ended'
+     */
+    public function eventStatus(): string
+    {
+        $now = CarbonImmutable::now(config('retreat.timezone', config('app.timezone')));
+
+        return match (true) {
+            $now->lessThan($this->eventStartDate()) => 'upcoming',
+            $now->greaterThan($this->eventEndDate()) => 'ended',
+            default => 'live',
+        };
     }
 }

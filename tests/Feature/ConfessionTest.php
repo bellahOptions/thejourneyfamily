@@ -1,11 +1,15 @@
 <?php
 
+use App\Mail\NewConfessionNotification;
 use App\Models\Confession;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Mail;
 
 uses(RefreshDatabase::class);
 
 test('a visitor can submit an anonymous confession', function () {
+    Mail::fake();
+
     $response = $this->post(route('confessions.store'), [
         'body' => 'I struggle to forgive quickly.',
         'hp_field' => '',
@@ -15,6 +19,9 @@ test('a visitor can submit an anonymous confession', function () {
     $this->assertDatabaseHas('confessions', [
         'body' => 'I struggle to forgive quickly.',
     ]);
+
+    Mail::assertSent(NewConfessionNotification::class, fn (NewConfessionNotification $mail) => $mail->confession->body === 'I struggle to forgive quickly.'
+    );
 });
 
 test('the confessions page lists visible confessions', function () {

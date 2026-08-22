@@ -20,8 +20,14 @@
                         <td style="padding:10px 0;border-bottom:1px solid #d8cec0;text-align:right;font-weight:700;">{{ $registration->formattedPackagePrice() }}</td>
                     </tr>
                     <tr>
-                        <td style="padding:10px 0;border-bottom:1px solid #d8cec0;color:#68766f;">Event date</td>
-                        <td style="padding:10px 0;border-bottom:1px solid #d8cec0;text-align:right;font-weight:700;">{{ $eventDate->timezone(config('retreat.timezone'))->format('F j, Y g:i A') }} WAT</td>
+                        <td style="padding:10px 0;border-bottom:1px solid #d8cec0;color:#68766f;">Event dates</td>
+                        <td style="padding:10px 0;border-bottom:1px solid #d8cec0;text-align:right;font-weight:700;">
+                            @if ($eventStartDate->isSameDay($eventEndDate))
+                                {{ $eventStartDate->timezone(config('retreat.timezone'))->format('F j, Y') }}
+                            @else
+                                {{ $eventStartDate->timezone(config('retreat.timezone'))->format('F j') }}–{{ $eventEndDate->timezone(config('retreat.timezone'))->format('j, Y') }}
+                            @endif
+                        </td>
                     </tr>
                     <tr>
                         <td style="padding:10px 0;color:#68766f;">Payment made</td>

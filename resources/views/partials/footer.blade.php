@@ -23,6 +23,7 @@
                     <li><a href="{{ route('registrations.create') }}" class="hover:text-blue-600">Register</a></li>
                     <li><a href="{{ route('confessions.index') }}" class="hover:text-blue-600">Confessions</a></li>
                     <li><a href="{{ route('questions.create') }}" class="hover:text-blue-600">Ask a question</a></li>
+                    <li><a href="{{ route('consultations.create') }}" class="hover:text-blue-600">Book a consultation</a></li>
                 </ul>
             </div>
         </div>

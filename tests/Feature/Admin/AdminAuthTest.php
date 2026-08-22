@@ -54,3 +54,53 @@ test('an admin can log out', function () {
 
     $this->assertGuest();
 });
+
+test('an admin who must change their password is redirected there instead of the dashboard', function () {
+    $admin = User::factory()->admin()->create(['must_change_password' => true]);
+
+    $this->actingAs($admin)
+        ->get(route('admin.dashboard'))
+        ->assertRedirect(route('admin.password.edit'));
+});
+
+test('an admin who must change their password can still reach the password page directly', function () {
+    $admin = User::factory()->admin()->create(['must_change_password' => true]);
+
+    $this->actingAs($admin)
+        ->get(route('admin.password.edit'))
+        ->assertOk();
+});
+
+test('changing the password clears the must-change flag and unlocks the dashboard', function () {
+    $admin = User::factory()->admin()->create([
+        'password' => 'temp-password',
+        'must_change_password' => true,
+    ]);
+
+    $response = $this->actingAs($admin)->put(route('admin.password.update'), [
+        'current_password' => 'temp-password',
+        'password' => 'BrandNew123',
+        'password_confirmation' => 'BrandNew123',
+    ]);
+
+    $response->assertRedirect(route('admin.dashboard'));
+
+    $admin->refresh();
+    expect($admin->must_change_password)->toBeFalse();
+
+    $this->actingAs($admin)
+        ->get(route('admin.dashboard'))
+        ->assertOk();
+});
+
+test('the current password is verified before allowing a password change', function () {
+    $admin = User::factory()->admin()->create(['password' => 'temp-password']);
+
+    $response = $this->actingAs($admin)->put(route('admin.password.update'), [
+        'current_password' => 'wrong-password',
+        'password' => 'BrandNew123',
+        'password_confirmation' => 'BrandNew123',
+    ]);
+
+    $response->assertSessionHasErrors('current_password');
+});

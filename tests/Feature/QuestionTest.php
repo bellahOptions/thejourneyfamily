@@ -1,11 +1,15 @@
 <?php
 
+use App\Mail\NewQuestionNotification;
 use App\Models\Question;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Mail;
 
 uses(RefreshDatabase::class);
 
 test('a visitor can submit an anonymous question', function () {
+    Mail::fake();
+
     $response = $this->post(route('questions.store'), [
         'body' => 'How do we handle conflict better?',
         'hp_field' => '',
@@ -16,6 +20,9 @@ test('a visitor can submit an anonymous question', function () {
         'body' => 'How do we handle conflict better?',
         'status' => Question::STATUS_PENDING,
     ]);
+
+    Mail::assertSent(NewQuestionNotification::class, fn (NewQuestionNotification $mail) => $mail->question->body === 'How do we handle conflict better?'
+    );
 });
 
 test('the live data endpoint returns featured questions', function () {

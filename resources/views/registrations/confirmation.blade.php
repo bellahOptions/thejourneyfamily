@@ -17,20 +17,38 @@
                     </p>
 
                     <div class="mt-8 rounded-lg border border-white/12 bg-white/8 p-5">
-                        <div
-                            class="mt-4 bg-white grid grid-cols-2 gap-3 sm:grid-cols-4"
-                            data-countdown="{{ $eventDate->toIso8601String() }}"
-                            aria-live="polite"
-                        >
-                            @foreach (['days' => 'Days', 'hours' => 'Hours', 'minutes' => 'Minutes', 'seconds' => 'Seconds'] as $unit => $label)
-                                <div class="rounded-lg bg-white px-4 py-5 text-center text-[#12211d]">
-                                    <span class="block text-3xl font-semibold" data-countdown-unit="{{ $unit }}">00</span>
-                                    <span class="mt-1 block text-xs font-semibold uppercase tracking-[0.16em] text-[#52625c]">{{ $label }}</span>
-                                </div>
-                            @endforeach
-                        </div>
+                        @if ($eventStatus === 'upcoming')
+                            <div
+                                class="mt-4 bg-white grid grid-cols-2 gap-3 sm:grid-cols-4"
+                                data-countdown="{{ $eventStartDate->toIso8601String() }}"
+                                aria-live="polite"
+                            >
+                                @foreach (['days' => 'Days', 'hours' => 'Hours', 'minutes' => 'Minutes', 'seconds' => 'Seconds'] as $unit => $label)
+                                    <div class="rounded-lg bg-white px-4 py-5 text-center text-[#12211d]">
+                                        <span class="block text-3xl font-semibold" data-countdown-unit="{{ $unit }}">00</span>
+                                        <span class="mt-1 block text-xs font-semibold uppercase tracking-[0.16em] text-[#52625c]">{{ $label }}</span>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @elseif ($eventStatus === 'live')
+                            <p class="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.16em] text-[#f0b65b]">
+                                <span class="relative flex h-2 w-2">
+                                    <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#f0b65b] opacity-75"></span>
+                                    <span class="relative inline-flex h-2 w-2 rounded-full bg-[#f0b65b]"></span>
+                                </span>
+                                Happening now
+                            </p>
+                        @else
+                            <p class="text-sm font-semibold uppercase tracking-[0.16em] text-white/60">
+                                This year's retreat has concluded
+                            </p>
+                        @endif
                         <p class="mt-4 text-sm text-white/70">
-                            Event date: {{ $eventDate->timezone(config('retreat.timezone'))->format('l, F j, Y g:i A') }} WAT.
+                            @if ($eventStartDate->isSameDay($eventEndDate))
+                                Event date: {{ $eventStartDate->timezone(config('retreat.timezone'))->format('l, F j, Y') }}, from {{ $eventStartDate->format('g:i A') }}.
+                            @else
+                                Event dates: {{ $eventStartDate->timezone(config('retreat.timezone'))->format('l, F j') }} – {{ $eventEndDate->timezone(config('retreat.timezone'))->format('l, F j, Y') }}.
+                            @endif
                         </p>
                     </div>
                 </div>

@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\ConfessionController;
+use App\Http\Controllers\Admin\ConsultationBookingController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\PasswordController;
 use App\Http\Controllers\Admin\QuestionController;
 use App\Http\Controllers\Admin\RegistrationController;
 use App\Http\Controllers\Admin\RegistrationImportController;
@@ -21,24 +23,33 @@ Route::prefix('admin')->name('admin.')->group(function () {
         ->name('logout');
 
     Route::middleware(['auth', 'admin'])->group(function () {
-        Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('password', [PasswordController::class, 'edit'])->name('password.edit');
+        Route::put('password', [PasswordController::class, 'update'])->name('password.update');
 
-        Route::get('registrations', [RegistrationController::class, 'index'])->name('registrations.index');
-        Route::get('registrations/import', [RegistrationImportController::class, 'create'])
-            ->name('registrations.import');
-        Route::post('registrations/import', [RegistrationImportController::class, 'store'])
-            ->name('registrations.import.store');
-        Route::get('registrations/{registration:confirmation_token}', [RegistrationController::class, 'show'])
-            ->name('registrations.show');
+        Route::middleware('password.change')->group(function () {
+            Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
-        Route::get('confessions', [ConfessionController::class, 'index'])->name('confessions.index');
-        Route::patch('confessions/{confession}/toggle', [ConfessionController::class, 'toggleHidden'])
-            ->name('confessions.toggle');
+            Route::get('registrations', [RegistrationController::class, 'index'])->name('registrations.index');
+            Route::get('registrations/import', [RegistrationImportController::class, 'create'])
+                ->name('registrations.import');
+            Route::post('registrations/import', [RegistrationImportController::class, 'store'])
+                ->name('registrations.import.store');
+            Route::get('registrations/{registration:confirmation_token}', [RegistrationController::class, 'show'])
+                ->name('registrations.show');
 
-        Route::get('questions', [QuestionController::class, 'index'])->name('questions.index');
-        Route::patch('questions/{question}/status', [QuestionController::class, 'updateStatus'])
-            ->name('questions.status');
-        Route::patch('questions/{question}/toggle', [QuestionController::class, 'toggleHidden'])
-            ->name('questions.toggle');
+            Route::get('confessions', [ConfessionController::class, 'index'])->name('confessions.index');
+            Route::patch('confessions/{confession}/toggle', [ConfessionController::class, 'toggleHidden'])
+                ->name('confessions.toggle');
+
+            Route::get('questions', [QuestionController::class, 'index'])->name('questions.index');
+            Route::patch('questions/{question}/status', [QuestionController::class, 'updateStatus'])
+                ->name('questions.status');
+            Route::patch('questions/{question}/toggle', [QuestionController::class, 'toggleHidden'])
+                ->name('questions.toggle');
+
+            Route::get('consultations', [ConsultationBookingController::class, 'index'])->name('consultations.index');
+            Route::patch('consultations/{booking}/status', [ConsultationBookingController::class, 'updateStatus'])
+                ->name('consultations.status');
+        });
     });
 });

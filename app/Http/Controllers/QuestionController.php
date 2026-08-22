@@ -3,10 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreQuestionRequest;
+use App\Mail\NewQuestionNotification;
 use App\Models\Question;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
+use Throwable;
 
 class QuestionController extends Controller
 {
@@ -17,11 +21,25 @@ class QuestionController extends Controller
 
     public function store(StoreQuestionRequest $request): RedirectResponse
     {
-        Question::create([
+        $question = Question::create([
             'body' => $request->validated('body'),
             'ip_address' => $request->ip(),
             'user_agent' => substr((string) $request->userAgent(), 0, 1000),
         ]);
+
+        // Best-effort — the question is already saved, so a mail failure
+        // should never surface to the person submitting it.
+        try {
+            $organizerEmails = config('retreat.organizer_emails', []);
+
+            if ($organizerEmails !== []) {
+                Mail::to($organizerEmails)->send(new NewQuestionNotification($question));
+            }
+        } catch (Throwable $e) {
+            Log::channel('retreat')->error("Question notification mail failure: {$e->getMessage()}", [
+                'question_id' => $question->id,
+            ]);
+        }
 
         return redirect()
             ->route('questions.create')

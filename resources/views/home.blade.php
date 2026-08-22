@@ -11,9 +11,20 @@
             <div class="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/60 to-gray-950/20"></div>
 
             <div class="relative mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28 lg:py-36">
-                <p class="text-xs font-semibold uppercase tracking-[0.32em] text-[#f0b65b]">
-                    {{ $eventDate->format('F Y') }} · Redemption Camp
-                </p>
+                @if ($eventStatus === 'live')
+                    <p class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.32em] text-[#f0b65b]">
+                        <span class="relative flex h-2 w-2">
+                            <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#f0b65b] opacity-75"></span>
+                            <span class="relative inline-flex h-2 w-2 rounded-full bg-[#f0b65b]"></span>
+                        </span>
+                        Happening now · Redemption Camp
+                    </p>
+                @else
+                    <p class="text-xs font-semibold uppercase tracking-[0.32em] text-[#f0b65b]">
+                        {{ $eventStartDate->format('F j') }}–{{ $eventEndDate->format('j, Y') }} · Redemption Camp
+                    </p>
+                @endif
+
                 <h1 class="mt-5 max-w-2xl font-display text-4xl font-semibold leading-tight sm:text-6xl">
                     {{ config('retreat.name') }}
                 </h1>
@@ -35,8 +46,8 @@
 
                 <div class="mt-12 grid max-w-xl gap-6 text-sm text-white/85 sm:grid-cols-3">
                     <div class="border-l border-[#f0b65b] pl-4">
-                        <span class="block text-lg font-semibold text-white">{{ $eventDate->format('F Y') }}</span>
-                        <span>Event month</span>
+                        <span class="block text-lg font-semibold text-white">{{ $eventStartDate->format('M j') }}–{{ $eventEndDate->format('j') }}</span>
+                        <span>Event dates</span>
                     </div>
                     <div class="border-l border-[#f0b65b] pl-4">
                         <span class="block text-lg font-semibold text-white">2 nights</span>
@@ -48,15 +59,31 @@
                     </div>
                 </div>
 
-                <div data-countdown="{{ $eventDate->toIso8601String() }}"
-                    class="mt-10 grid max-w-md grid-cols-4 gap-3 text-center">
-                    @foreach (['days' => 'Days', 'hours' => 'Hrs', 'minutes' => 'Min', 'seconds' => 'Sec'] as $unit => $label)
-                        <div class="rounded-xl border border-white/15 bg-white/8 py-3 backdrop-blur">
-                            <span data-countdown-unit="{{ $unit }}" class="block font-mono text-2xl font-semibold text-white">00</span>
-                            <span class="text-[11px] uppercase tracking-[0.18em] text-white/60">{{ $label }}</span>
-                        </div>
-                    @endforeach
-                </div>
+                @if ($eventStatus === 'upcoming')
+                    <div data-countdown="{{ $eventStartDate->toIso8601String() }}"
+                        class="mt-10 grid max-w-md grid-cols-4 gap-3 text-center">
+                        @foreach (['days' => 'Days', 'hours' => 'Hrs', 'minutes' => 'Min', 'seconds' => 'Sec'] as $unit => $label)
+                            <div class="rounded-xl border border-white/15 bg-white/8 py-3 backdrop-blur">
+                                <span data-countdown-unit="{{ $unit }}" class="block font-mono text-2xl font-semibold text-white">00</span>
+                                <span class="text-[11px] uppercase tracking-[0.18em] text-white/60">{{ $label }}</span>
+                            </div>
+                        @endforeach
+                    </div>
+                @elseif ($eventStatus === 'live')
+                    <div class="mt-10 max-w-md rounded-xl border border-[#f0b65b]/40 bg-[#f0b65b]/10 px-5 py-4">
+                        <p class="text-sm leading-6 text-white/90">
+                            The retreat is live right now at Redemption Camp, running through
+                            {{ $eventEndDate->format('g:i A') }} on {{ $eventEndDate->format('l, F j') }}.
+                        </p>
+                    </div>
+                @else
+                    <div class="mt-10 max-w-md rounded-xl border border-white/15 bg-white/8 px-5 py-4 backdrop-blur">
+                        <p class="text-sm leading-6 text-white/80">
+                            This year's retreat has concluded. Thank you to everyone who joined us — see you next
+                            time.
+                        </p>
+                    </div>
+                @endif
             </div>
         </section>
 
@@ -150,6 +177,27 @@
                         Ask now
                         <span class="transition group-hover:translate-x-1">→</span>
                     </span>
+                </a>
+            </div>
+        </section>
+
+        {{-- Book a consultation --}}
+        <section class="bg-blue-950">
+            <div class="mx-auto grid max-w-6xl gap-8 px-5 py-16 sm:px-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
+                <div>
+                    <p class="text-xs font-semibold uppercase tracking-[0.28em] text-[#f0b65b]">One-on-one support</p>
+                    <h2 class="mt-3 font-display text-3xl font-semibold text-white sm:text-4xl">
+                        Book a consultation with a counselor
+                    </h2>
+                    <p class="mt-4 max-w-lg text-sm leading-6 text-white/75">
+                        Some things are easier to talk through privately. Book a one-on-one session with a
+                        counselor — before, during, or after the retreat — and we'll reach out on WhatsApp to
+                        schedule a time that works for you both.
+                    </p>
+                </div>
+                <a href="{{ route('consultations.create') }}"
+                    class="inline-flex w-fit items-center justify-center gap-2 rounded-full bg-[#f0b65b] px-7 py-3.5 text-sm font-semibold text-gray-950 shadow-lg transition hover:bg-[#e6a942] lg:justify-self-end">
+                    Book a consultation
                 </a>
             </div>
         </section>

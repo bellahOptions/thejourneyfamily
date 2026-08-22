@@ -10,9 +10,7 @@ use Illuminate\Mail\Mailables\Envelope;
 
 class ParticipantRegistrationConfirmation extends Mailable
 {
-    public function __construct(public RetreatRegistration $registration)
-    {
-    }
+    public function __construct(public RetreatRegistration $registration) {}
 
     public function envelope(): Envelope
     {
@@ -27,7 +25,8 @@ class ParticipantRegistrationConfirmation extends Mailable
         return new Content(
             view: 'mail.registrations.participant',
             with: [
-                'eventDate' => $this->registration->eventDate(),
+                'eventStartDate' => $this->registration->eventStartDate(),
+                'eventEndDate' => $this->registration->eventEndDate(),
                 'payment' => config('retreat.payment'),
             ],
         );

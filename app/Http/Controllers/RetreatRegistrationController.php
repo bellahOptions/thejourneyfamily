@@ -19,7 +19,9 @@ class RetreatRegistrationController extends Controller
     public function index(): View
     {
         return view('home', [
-            'eventDate' => $this->eventDate(),
+            'eventStartDate' => $this->eventStartDate(),
+            'eventEndDate' => $this->eventEndDate(),
+            'eventStatus' => $this->eventStatus(),
             'packages' => config('retreat.packages'),
             'payment' => config('retreat.payment'),
         ]);
@@ -28,7 +30,8 @@ class RetreatRegistrationController extends Controller
     public function create(): View
     {
         return view('registrations.create', [
-            'eventDate' => $this->eventDate(),
+            'eventStartDate' => $this->eventStartDate(),
+            'eventEndDate' => $this->eventEndDate(),
             'packages' => config('retreat.packages'),
             'payment' => config('retreat.payment'),
         ]);
@@ -88,18 +91,42 @@ class RetreatRegistrationController extends Controller
     public function show(RetreatRegistration $registration): View
     {
         return view('registrations.confirmation', [
-            'eventDate' => $this->eventDate(),
+            'eventStartDate' => $this->eventStartDate(),
+            'eventEndDate' => $this->eventEndDate(),
+            'eventStatus' => $this->eventStatus(),
             'payment' => config('retreat.payment'),
             'registration' => $registration,
         ]);
     }
 
-    private function eventDate(): CarbonImmutable
+    private function eventStartDate(): CarbonImmutable
     {
         return CarbonImmutable::parse(
-            config('retreat.event_date'),
+            config('retreat.event_start_date'),
             config('retreat.timezone', config('app.timezone'))
         );
+    }
+
+    private function eventEndDate(): CarbonImmutable
+    {
+        return CarbonImmutable::parse(
+            config('retreat.event_end_date'),
+            config('retreat.timezone', config('app.timezone'))
+        );
+    }
+
+    /**
+     * @return 'upcoming'|'live'|'ended'
+     */
+    private function eventStatus(): string
+    {
+        $now = CarbonImmutable::now(config('retreat.timezone', config('app.timezone')));
+
+        return match (true) {
+            $now->lessThan($this->eventStartDate()) => 'upcoming',
+            $now->greaterThan($this->eventEndDate()) => 'ended',
+            default => 'live',
+        };
     }
 
     /**

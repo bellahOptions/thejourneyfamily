@@ -7,6 +7,7 @@
             ['route' => 'admin.registrations.index', 'label' => 'Registrations'],
             ['route' => 'admin.confessions.index', 'label' => 'Confessions'],
             ['route' => 'admin.questions.index', 'label' => 'Questions'],
+            ['route' => 'admin.consultations.index', 'label' => 'Consultations'],
         ];
     @endphp
 

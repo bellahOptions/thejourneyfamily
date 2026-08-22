@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Confession;
+use App\Models\ConsultationBooking;
 use App\Models\Question;
 use App\Models\RetreatRegistration;
 use Illuminate\View\View;
@@ -25,6 +26,7 @@ class DashboardController extends Controller
             'recentRegistrations' => (clone $registrations)->latest()->limit(5)->get(),
             'pendingQuestions' => Question::query()->visible()->where('status', Question::STATUS_PENDING)->count(),
             'totalConfessions' => Confession::query()->visible()->count(),
+            'pendingConsultations' => ConsultationBooking::query()->where('status', ConsultationBooking::STATUS_PENDING)->count(),
         ]);
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ConfessionController;
+use App\Http\Controllers\ConsultationBookingController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\RetreatRegistrationController;
 use Illuminate\Support\Facades\Route;
@@ -25,5 +26,10 @@ Route::post('/ask', [QuestionController::class, 'store'])
     ->name('questions.store');
 Route::get('/questions/live', [QuestionController::class, 'live'])->name('questions.live');
 Route::get('/questions/live-data', [QuestionController::class, 'liveData'])->name('questions.live-data');
+
+Route::get('/consultation', [ConsultationBookingController::class, 'create'])->name('consultations.create');
+Route::post('/consultation', [ConsultationBookingController::class, 'store'])
+    ->middleware('throttle:5,1')
+    ->name('consultations.store');
 
 require __DIR__.'/admin.php';

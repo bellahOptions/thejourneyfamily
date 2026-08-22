@@ -4,7 +4,7 @@
     <h1 class="font-display text-3xl font-semibold text-gray-950">Dashboard</h1>
     <p class="mt-1 text-sm text-[#52625c]">An overview of retreat registrations and activity.</p>
 
-    <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+    <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
         <div class="rounded-2xl border border-[#d8cec0] bg-white p-6 shadow-sm">
             <p class="text-xs font-semibold uppercase tracking-[0.18em] text-[#68766f]">Total registrations</p>
             <p class="mt-3 text-3xl font-semibold text-gray-950">{{ $totalRegistrations }}</p>
@@ -20,6 +20,10 @@
         <div class="rounded-2xl border border-[#d8cec0] bg-white p-6 shadow-sm">
             <p class="text-xs font-semibold uppercase tracking-[0.18em] text-[#68766f]">Pending questions</p>
             <p class="mt-3 text-3xl font-semibold text-blue-600">{{ $pendingQuestions }}</p>
+        </div>
+        <div class="rounded-2xl border border-[#d8cec0] bg-white p-6 shadow-sm">
+            <p class="text-xs font-semibold uppercase tracking-[0.18em] text-[#68766f]">Pending consultations</p>
+            <p class="mt-3 text-3xl font-semibold text-blue-600">{{ $pendingConsultations }}</p>
         </div>
     </div>
 
