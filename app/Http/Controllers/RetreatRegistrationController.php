@@ -18,7 +18,16 @@ class RetreatRegistrationController extends Controller
 {
     public function index(): View
     {
-        return view('welcome', [
+        return view('home', [
+            'eventDate' => $this->eventDate(),
+            'packages' => config('retreat.packages'),
+            'payment' => config('retreat.payment'),
+        ]);
+    }
+
+    public function create(): View
+    {
+        return view('registrations.create', [
             'eventDate' => $this->eventDate(),
             'packages' => config('retreat.packages'),
             'payment' => config('retreat.payment'),
@@ -38,7 +47,7 @@ class RetreatRegistrationController extends Controller
                 ...collect($validated)->except(['consent', 'hp_field', 'package_key'])->all(),
                 'confirmation_token' => (string) Str::uuid(),
                 'package_key' => $validated['package_key'],
-                'package_label' => $package['label'] . ' - ' . $package['room'],
+                'package_label' => $package['label'].' - '.$package['room'],
                 'package_price' => $package['price'],
                 'consent_at' => now(),
                 'ip_address' => $request->ip(),

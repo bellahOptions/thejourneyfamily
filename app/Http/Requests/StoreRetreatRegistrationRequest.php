@@ -4,7 +4,6 @@ namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\Rule;
 
 class StoreRetreatRegistrationRequest extends FormRequest
@@ -46,16 +45,19 @@ class StoreRetreatRegistrationRequest extends FormRequest
             // 'email:rfc' rejects a lot of real-world addresses — plain 'email'
             // (RFCValidation + basic filter) is friendlier for a public form.
             'email' => ['required', 'email', 'max:160'],
-            'wedding_anniversary' => ['required', 'date', 'before_or_equal:today'],
+            'anniversary_day' => ['required', 'integer', 'between:1,31'],
+            'anniversary_month' => ['required', 'integer', 'between:1,12'],
             'participant_whatsapp' => ['required', 'string', 'max:30', 'regex:/^[0-9+\s().-]{7,30}$/'],
             'spouse_whatsapp' => ['required', 'string', 'max:30', 'regex:/^[0-9+\s().-]{7,30}$/'],
             'transport_status' => ['required', Rule::in(['Yes', 'No', 'Other'])],
-            'bringing_children' => ['required', Rule::in(['Yes', 'No', 'Maybe'])],
+            'transport_notes' => ['nullable', 'string', 'max:255', 'required_if:transport_status,Other'],
+            'bringing_children' => ['required', Rule::in(['Yes', 'No'])],
             'children_ages' => ['required_if:bringing_children,Yes', 'nullable', 'string', 'max:120'],
             'expectations' => ['nullable', 'string', 'max:2000'],
             'prayer_request' => ['nullable', 'string', 'max:2000'],
             'previous_feedback' => ['nullable', 'string', 'max:2000'],
             'payment_made' => ['required', Rule::in(['Yes', 'No'])],
+            'payment_proof_note' => ['nullable', 'string', 'max:500'],
             'package_key' => ['required', Rule::in(array_keys(config('retreat.packages', [])))],
             'questions' => ['nullable', 'string', 'max:2000'],
             'consent' => ['accepted'],
@@ -72,8 +74,8 @@ class StoreRetreatRegistrationRequest extends FormRequest
             'participant_whatsapp.regex' => 'Enter a valid WhatsApp number, e.g. 08012345678.',
             'spouse_whatsapp.regex' => 'Enter a valid WhatsApp number, e.g. 08012345678.',
             'children_ages.required_if' => 'Share the children age(s) if you are coming with children.',
+            'transport_notes.required_if' => 'Let us know a bit more about your travel plans.',
             'consent.accepted' => 'Please confirm that the details are accurate and that The Journey may contact you.',
-            'wedding_anniversary.before_or_equal' => 'Wedding anniversary date can\'t be in the future.',
             'package_key.required' => 'Please select a package.',
         ];
     }
@@ -96,6 +98,13 @@ class StoreRetreatRegistrationRequest extends FormRequest
                 ]);
 
                 $validator->errors()->add('couple_name', 'We couldn\'t process your registration. Please try again.');
+            }
+
+            $day = (int) $this->input('anniversary_day');
+            $month = (int) $this->input('anniversary_month');
+
+            if ($day && $month && ! checkdate($month, $day, 2000)) {
+                $validator->errors()->add('anniversary_day', 'Enter a valid day for the selected month.');
             }
         });
     }

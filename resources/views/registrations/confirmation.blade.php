@@ -4,7 +4,7 @@
     <main class="min-h-screen bg-blue-950 px-5 py-8 text-white sm:px-8 lg:px-12">
         <div class="mx-auto flex min-h-[calc(100vh-4rem)] max-w-5xl flex-col">
             <a href="{{ route('landing') }}" class="w-36 sm:w-44" aria-label="The Journey Couples Retreat">
-                <img src="{{ asset('logo.png') }}" alt="The Journey Couples Retreat" class="h-auto w-full">
+                <img src="{{ asset('logo.png') }}" alt="The Journey Couples Retreat" class="h-auto w-full mb-5">
             </a>
 
             <section class="grid flex-1 items-center gap-10 py-10 lg:grid-cols-[1fr_0.8fr]">
@@ -64,10 +64,9 @@
                         <p class="font-semibold">Payment proof</p>
                         <p class="mt-1">Send proof of payment to {{ $payment['proof_whatsapp'] }} on WhatsApp.</p>
                     </div>
-                    {{-- -
-                    <a href="{{ route('landing') }}#registration" class="mt-6 inline-flex w-full items-center justify-center rounded-lg border border-[#a33852] px-5 py-3 text-sm font-semibold text-[#a33852] transition hover:bg-[#fff6f7]">
-                        Submit another registration
-                    </a> --}}
+                    <a href="{{ route('landing') }}" class="mt-6 inline-flex w-full items-center justify-center rounded-lg border border-[#d8cec0] px-5 py-3 text-sm font-semibold text-[#23352f] transition hover:bg-white">
+                        Back to homepage
+                    </a>
                 </aside>
             </section>
         </div>

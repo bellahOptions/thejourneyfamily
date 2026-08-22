@@ -9,7 +9,7 @@
                 <table role="presentation" style="width:100%;margin-top:24px;border-collapse:collapse;">
                     @foreach ([
                         'Email' => $registration->email,
-                        'Wedding anniversary' => $registration->wedding_anniversary->format('F j, Y'),
+                        'Wedding anniversary' => $registration->anniversaryLabel(),
                         'Participant WhatsApp' => $registration->participant_whatsapp,
                         'Spouse WhatsApp' => $registration->spouse_whatsapp,
                         'Transport' => $registration->transport_status,
@@ -27,9 +27,11 @@
                 </table>
 
                 @foreach ([
+                    'Travel notes' => $registration->transport_notes,
                     'Expectations' => $registration->expectations,
                     'Prayer request' => $registration->prayer_request,
                     'Previous feedback' => $registration->previous_feedback,
+                    'Payment proof note' => $registration->payment_proof_note,
                     'Other questions' => $registration->questions,
                 ] as $label => $value)
                     @if ($value)

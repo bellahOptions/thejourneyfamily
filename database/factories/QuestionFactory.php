@@ -1,0 +1,26 @@
+<?php
+
+namespace Database\Factories;
+
+use App\Models\Question;
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+/**
+ * @extends Factory<Question>
+ */
+class QuestionFactory extends Factory
+{
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition(): array
+    {
+        return [
+            'body' => $this->faker->sentence(),
+            'status' => Question::STATUS_PENDING,
+            'is_hidden' => false,
+        ];
+    }
+}

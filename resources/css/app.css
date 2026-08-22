@@ -33,3 +33,7 @@ body {
     background: #f0b65b;
     color: #12211d;
 }
+
+[x-cloak] {
+    display: none !important;
+}

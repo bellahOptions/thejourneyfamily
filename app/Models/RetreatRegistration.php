@@ -11,16 +11,19 @@ class RetreatRegistration extends Model
         'confirmation_token',
         'couple_name',
         'email',
-        'wedding_anniversary',
+        'anniversary_day',
+        'anniversary_month',
         'participant_whatsapp',
         'spouse_whatsapp',
         'transport_status',
+        'transport_notes',
         'bringing_children',
         'children_ages',
         'expectations',
         'prayer_request',
         'previous_feedback',
         'payment_made',
+        'payment_proof_note',
         'package_key',
         'package_label',
         'package_price',
@@ -33,10 +36,17 @@ class RetreatRegistration extends Model
     protected function casts(): array
     {
         return [
-            'wedding_anniversary' => 'date',
+            'anniversary_day' => 'integer',
+            'anniversary_month' => 'integer',
             'consent_at' => 'datetime',
             'package_price' => 'integer',
         ];
+    }
+
+    public function anniversaryLabel(): string
+    {
+        return CarbonImmutable::createFromDate(2000, $this->anniversary_month, $this->anniversary_day)
+            ->format('j F');
     }
 
     public function getRouteKeyName(): string
@@ -51,7 +61,17 @@ class RetreatRegistration extends Model
 
     public function formattedPackagePrice(): string
     {
-        return 'NGN '.number_format($this->package_price);
+        return $this->package_price === null ? 'Not selected' : 'NGN '.number_format($this->package_price);
+    }
+
+    public function needsPackage(): bool
+    {
+        return $this->package_key === null;
+    }
+
+    public function needsEmail(): bool
+    {
+        return blank($this->email);
     }
 
     public function eventDate(): CarbonImmutable

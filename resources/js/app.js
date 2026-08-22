@@ -29,18 +29,21 @@ countdowns.forEach((element) => {
     window.setInterval(() => updateCountdown(element), 1000);
 });
 
-    function updateClock() {
-        const now = new Date();
-        
-        // Format time to your liking (e.g., HH:MM:SS)
-        const timeString = now.toLocaleTimeString();
-        const dateString = now.toLocaleDateString(undefined, { 
-            weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' 
-        });
+function updateClock() {
+    const el = document.getElementById('live-clock');
 
-        document.getElementById('live-clock').textContent = `${dateString} - ${timeString}`;
+    if (!el) {
+        return;
     }
 
-    // Run immediately on load, then tick every 1 second (1000ms)
-    updateClock();
-    setInterval(updateClock, 1000);
+    const now = new Date();
+    const timeString = now.toLocaleTimeString();
+    const dateString = now.toLocaleDateString(undefined, {
+        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+    });
+
+    el.textContent = `${dateString} - ${timeString}`;
+}
+
+updateClock();
+setInterval(updateClock, 1000);
